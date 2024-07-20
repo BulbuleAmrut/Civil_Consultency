@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Contractor Registration Form</title>
+<link rel="stylesheet" type="text/css" href="/css/labourRegister.css">
+</head>
+<body>
+    <h1>Free Listing for Contractor</h1>
+    <form action="con" method="post" onsubmit="return validateForm()">
+        <div>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div>
+            <label for="number">Phone Number:</label>
+            <input type="text" id="number" name="number" pattern="\d{10}" title="Please enter a 10-digit phone number" maxlength="10" required>
+        </div>
+        <div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div>
+            <label for="state">State:</label>
+            <select id="state" name="state" onchange="populateDistricts()" required>
+                <option value="">Select State</option>
+               <option value="Andhra Pradesh">Andhra Pradesh</option>
+                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                <option value="Assam">Assam</option>
+                <option value="Bihar">Bihar</option>
+                <option value="Chhattisgarh">Chhattisgarh</option>
+                <option value="Goa">Goa</option>
+                <option value="Gujarat">Gujarat</option>
+                <option value="Haryana">Haryana</option>
+                <option value="Himachal Pradesh">Himachal Pradesh</option>
+                <option value="Jharkhand">Jharkhand</option>
+                <option value="Karnataka">Karnataka</option>
+                <option value="Kerala">Kerala</option>
+                <option value="Madhya Pradesh">Madhya Pradesh</option>
+                <option value="Maharashtra">Maharashtra</option>
+                <option value="Manipur">Manipur</option>
+                <option value="Meghalaya">Meghalaya</option>
+                <option value="Mizoram">Mizoram</option>
+                <option value="Nagaland">Nagaland</option>
+                <option value="Odisha">Odisha</option>
+                <option value="Punjab">Punjab</option>
+                <option value="Rajasthan">Rajasthan</option>
+                <option value="Sikkim">Sikkim</option>
+                <option value="Tamil Nadu">Tamil Nadu</option>
+                <option value="Telangana">Telangana</option>
+                <option value="Tripura">Tripura</option>
+                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                <option value="Uttarakhand">Uttarakhand</option>
+                <option value="West Bengal">West Bengal</option>
+            </select>
+        </div>
+        <div>
+            <label for="district">District:</label>
+            <select id="district" name="district" required>
+                <option value="">Select District</option>
+            </select>
+        </div>
+        <div>
+            <label for="city">City:</label>
+            <input type="text" id="city" name="city" required>
+        </div>
+        <div>
+            <label for="address">Address:</label>
+            <textarea id="address" name="address" rows="4" required></textarea>
+        </div>
+        <div>
+            <label for="role">Specification On:</label>
+            <select id="role" name="role" required>
+                <option value="">Select Role</option>
+        <option value="contractor">Contractor</option>
+        <option value="engineer">Engineer</option>
+        <option value="architect">Architect</option>
+        <option value="surveyor">Surveyor</option>
+        <option value="planner">Planner</option>
+        <option value="designer">Designer</option>
+        <option value="project_manager">Project Manager</option>
+        <option value="civil_engineer">Civil Engineer</option>
+        <option value="structural_engineer">Structural Engineer</option>
+        <option value="landscape_architect">Landscape Architect</option>
+        <option value="urban_planner">Urban Planner</option>
+        <option value="construction_manager">Construction Manager</option>
+        <option value="quantity_surveyor">Quantity Surveyor</option>
+        <option value="interior_designer">Interior Designer</option>
+        <option value="environmental_engineer">Environmental Engineer</option>
+        <option value="mechanical_engineer">Mechanical Engineer</option>
+        <option value="electrical_engineer">Electrical Engineer</option>
+            </select>
+        </div>
+        <div>
+            <label for="password">Set Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <div>
+            <label for="confirmPassword">Confirm Password:</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required>
+        </div>
+        <div class="locations-container">
+            <div id="locations">
+                <label for="intrested_cities">Add your Working Locations:</label>
+                <div id="locationList">
+                    <!-- Locations added dynamically will go here -->
+                </div>
+                <button type="button" class="add-location" onclick="showCityDropdown()">+ Add location</button>
+                <select id="cityDropdown" onchange="addLocationFromDropdown()">
+                    <option value="">Select City</option>
+                    <option value="City1">City1</option>
+                    <option value="City2">City2</option>
+                    <!-- Add other cities here -->
+                </select>
+            </div>
+            <span id="location_error" class="error"></span>
+        </div>
+        <div>
+            <input type="submit" value="Register">
+        </div>
+    </form>
+
+    <script>document.addEventListener('DOMContentLoaded', function() {
+        var password = document.getElementById("password");
+        var confirmPassword = document.getElementById("confirmPassword");
+        var confirmPasswordError = document.getElementById("confirm_password_error");
+
+        function validatePassword() {
+            if (password.value !== confirmPassword.value) {
+                confirmPassword.setCustomValidity("Passwords do not match");
+            } else {
+                confirmPassword.setCustomValidity('');
+            }
+        }
+
+        password.addEventListener("input", validatePassword);
+        confirmPassword.addEventListener("input", validatePassword);
+    });
+
+    const stateDistricts = {
+        "Karnataka": [
+            "Bagalkot",
+            "Ballari (Bellary)",
+            "Belagavi (Belgaum)",
+            "Bengaluru Rural",
+            "Bengaluru Urban",
+            "Bidar",
+            "Chamarajanagar",
+            "Chikballapur",
+            "Chikkamagaluru (Chikmagalur)",
+            "Chitradurga",
+            "Dakshina Kannada",
+            "Davanagere",
+            "Dharwad",
+            "Gadag",
+            "Hassan",
+            "Haveri",
+            "Kalaburagi (Gulbarga)",
+            "Kodagu (Coorg)",
+            "Kolar",
+            "Koppal",
+            "Mandya",
+            "Mysuru (Mysore)",
+            "Raichur",
+            "Ramanagara",
+            "Shivamogga (Shimoga)",
+            "Tumakuru (Tumkur)",
+            "Udupi",
+            "Uttara Kannada (Karwar)",
+            "Vijayapura (Bijapur)",
+            "Yadgir"
+        ]
+        // Add districts for other states as needed
+    };
+
+    function populateDistricts() {
+        var stateSelect = document.getElementById("state");
+        var districtSelect = document.getElementById("district");
+        var selectedState = stateSelect.value;
+
+        districtSelect.innerHTML = '<option value="">Select District</option>';
+
+        if (selectedState && stateDistricts[selectedState]) {
+            stateDistricts[selectedState].forEach(function(district) {
+                var option = document.createElement("option");
+                option.value = district;
+                option.textContent = district;
+                districtSelect.appendChild(option);
+            });
+        }
+    }
+
+    function addLocationFromDropdown() {
+        var cityDropdown = document.getElementById("cityDropdown");
+        var selectedCity = cityDropdown.value;
+        if (selectedCity) {
+            addLocation(selectedCity);
+            cityDropdown.value = "";
+            cityDropdown.style.display = "none";
+        }
+    }
+
+    function showCityDropdown() {
+        var cityDropdown = document.getElementById("cityDropdown");
+        cityDropdown.style.display = "block";
+    }
+
+    function addLocation(location) {
+        var locationList = document.getElementById("locationList");
+
+        var locationItem = document.createElement("div");
+        locationItem.className = "location-item";
+        locationItem.textContent = location;
+
+        var removeButton = document.createElement("button");
+        removeButton.textContent = "x";
+        removeButton.addEventListener("click", function() {
+            locationList.removeChild(locationItem);
+        });
+
+        locationItem.appendChild(removeButton);
+        locationList.appendChild(locationItem);
+    }
+
+    function validateForm() {
+        var locationList = document.getElementById("locationList");
+        var locationError = document.getElementById("location_error");
+
+        if (locationList.children.length === 0) {
+            locationError.textContent = "Please add at least one location.";
+            return false;
+        } else {
+            locationError.textContent = "";
+            return true;
+        }
+    }
+</script>
+</body>
+</html>
